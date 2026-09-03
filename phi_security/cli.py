@@ -181,7 +181,7 @@ def parser_for_cli():
     parser.add_argument('--man', action='store_true', help='print full manual and exit')
     parser.add_argument('command', nargs='?', choices=['man', 'scan', 'inventory', 'data-map', 'exposure', 'iam', 'logs', 'investigate', 'investigations', 'incidents', 'incident', 'findings', 'evidence', 'baselines', 'classifications', 'ask', 'agent', 'cycles', 'health', 'report', 'controls', 'llm-runs', 'classify'])
     parser.add_argument('value', nargs='?', help='record ID or quoted question')
-    for flag in ['resource', 'identity', 'classification', 'regions', 'output', 'config', 'db', 'view', 'severity', 'status', 'type', 'source', 'risk-level', 'incident-id', 'investigation-id', 'trigger', 'note', 'principal', 'log-group']:
+    for flag in ['resource', 'identity', 'classification', 'regions', 'output', 'config', 'db', 'view', 'severity', 'status', 'type', 'source', 'risk-level', 'incident-id', 'investigation-id', 'trigger', 'note', 'principal', 'log-group', 'skip']:
         parser.add_argument('--' + flag)
     parser.add_argument('--llm', choices=['none', 'ollama', 'local'], help='local inference adapter; never starts a server')
     parser.add_argument('--model', help='local Ollama model name or GGUF path')
@@ -338,6 +338,8 @@ def main(argv=None):
             if any(p and same_path(path, p) for p in protected + outputs[:index]):
                 parser.error('Output files must be distinct and must not overwrite inputs, database, or configuration')
         engine = Engine(config)
+        if getattr(args, 'skip', None) and args.command in ('scan', 'agent'):
+            config['skip_services'] = [s.strip() for s in args.skip.split(',') if s.strip()]
         logger.info('%s  db=%s', args.command, config['db'])
         if args.command != 'agent':
             progress = None
