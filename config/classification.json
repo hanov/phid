@@ -1,0 +1,213 @@
+{
+  "classificationTaxonomy": {
+    "categories": [
+      {
+        "id": "PHI_HIGH",
+        "name": "Protected Health Information — High Sensitivity",
+        "description": "HIPAA-regulated PHI with direct patient identification — strongest protections required",
+        "regulation": [
+          "HIPAA",
+          "HITECH"
+        ],
+        "examples": [
+          "Full patient name",
+          "SSN",
+          "MRN",
+          "DOB + name combination",
+          "Account number"
+        ],
+        "requiredControls": [
+          "AES-256 encryption at rest",
+          "TLS 1.2+ in transit",
+          "Access logging",
+          "Customer-managed KMS key",
+          "MFA for access"
+        ]
+      },
+      {
+        "id": "PHI",
+        "name": "Protected Health Information",
+        "description": "HIPAA-regulated PHI — requires standard PHI safeguards",
+        "regulation": [
+          "HIPAA",
+          "HITECH"
+        ],
+        "examples": [
+          "Diagnosis codes",
+          "Medications",
+          "Lab results",
+          "Treatment information",
+          "Insurance identifiers"
+        ],
+        "requiredControls": [
+          "AES-256 encryption at rest",
+          "TLS 1.2+ in transit",
+          "Access logging",
+          "Minimum necessary principle"
+        ]
+      },
+      {
+        "id": "PII_FINANCIAL",
+        "name": "Personally Identifiable Information — Financial",
+        "description": "Financial PII including payment cards and banking data",
+        "regulation": [
+          "PCI-DSS",
+          "GLBA",
+          "SOX"
+        ],
+        "examples": [
+          "Credit card numbers",
+          "Bank account numbers",
+          "Financial account identifiers"
+        ],
+        "requiredControls": [
+          "PCI-DSS controls",
+          "Tokenization",
+          "AES-256 encryption",
+          "Audit logging"
+        ]
+      },
+      {
+        "id": "PII",
+        "name": "Personally Identifiable Information",
+        "description": "General PII under GDPR, CCPA, and other privacy regulations",
+        "regulation": [
+          "GDPR",
+          "CCPA",
+          "CPRA"
+        ],
+        "examples": [
+          "Email address",
+          "Phone number",
+          "Physical address",
+          "IP address",
+          "Device identifiers"
+        ],
+        "requiredControls": [
+          "Encryption at rest",
+          "Data minimization",
+          "Retention limits",
+          "Subject rights support"
+        ]
+      },
+      {
+        "id": "PUBLIC",
+        "name": "Public Information",
+        "description": "Information intended for public access — no special protections required",
+        "regulation": [],
+        "examples": [
+          "Marketing materials",
+          "Public documentation",
+          "Static website assets"
+        ],
+        "requiredControls": []
+      },
+      {
+        "id": "ENCRYPTION_KEY",
+        "name": "Encryption Key Material",
+        "description": "KMS keys and other cryptographic material — critical infrastructure",
+        "regulation": [
+          "HIPAA",
+          "PCI-DSS"
+        ],
+        "examples": [
+          "KMS CMKs",
+          "Key aliases",
+          "Key policies"
+        ],
+        "requiredControls": [
+          "Strict IAM policies",
+          "Key rotation",
+          "CloudTrail logging",
+          "Least privilege access"
+        ]
+      }
+    ]
+  },
+  "detectionPatterns": [
+    {
+      "id": "pat-001",
+      "type": "PATIENT_NAME",
+      "pattern": "patientName|patient_name|full_name|firstName.*lastName",
+      "description": "Patient full name fields",
+      "active": true
+    },
+    {
+      "id": "pat-002",
+      "type": "MRN",
+      "pattern": "mrn|medical_record_number|patientId|patient_id",
+      "description": "Medical Record Number",
+      "active": true
+    },
+    {
+      "id": "pat-003",
+      "type": "DOB",
+      "pattern": "dob|date_of_birth|birthDate|birth_date",
+      "description": "Date of Birth",
+      "active": true
+    },
+    {
+      "id": "pat-004",
+      "type": "SSN",
+      "pattern": "\\b\\d{3}-\\d{2}-\\d{4}\\b|ssn|social_security",
+      "description": "Social Security Number",
+      "active": true
+    },
+    {
+      "id": "pat-005",
+      "type": "DIAGNOSIS",
+      "pattern": "icd10|icd_code|diagnosis|dx_code|condition",
+      "description": "Diagnosis codes and descriptions",
+      "active": true
+    },
+    {
+      "id": "pat-006",
+      "type": "MEDICATIONS",
+      "pattern": "medication|prescription|rx|drug_name|ndc_code",
+      "description": "Medication and prescription data",
+      "active": true
+    },
+    {
+      "id": "pat-007",
+      "type": "LAB_RESULTS",
+      "pattern": "lab_result|laboratory|loinc|test_result|specimen",
+      "description": "Laboratory results and orders",
+      "active": true
+    },
+    {
+      "id": "pat-008",
+      "type": "INSURANCE_ID",
+      "pattern": "insurance_id|member_id|group_number|payer_id",
+      "description": "Insurance identifiers",
+      "active": true
+    },
+    {
+      "id": "pat-009",
+      "type": "CREDIT_CARD",
+      "pattern": "\\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})\\b",
+      "description": "Credit card numbers (PAN)",
+      "active": true
+    },
+    {
+      "id": "pat-010",
+      "type": "PHONE_NUMBER",
+      "pattern": "\\b\\d{3}[-.\\s]?\\d{3}[-.\\s]?\\d{4}\\b",
+      "description": "Phone numbers",
+      "active": true
+    },
+    {
+      "id": "pat-011",
+      "type": "EMAIL",
+      "pattern": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+      "description": "Email addresses",
+      "active": true
+    },
+    {
+      "id": "pat-012",
+      "type": "ADDRESS",
+      "pattern": "\\b\\d+\\s+[A-Za-z]+\\s+(St|Ave|Blvd|Dr|Rd|Lane|Way)\\b",
+      "description": "Physical street addresses",
+      "active": true
+    }
+  ]
+}

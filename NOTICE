@@ -1,0 +1,12 @@
+PHI/PII Security CLI (phi-security / phi-sec)
+Required Notice: Copyright (c) 2026 Oleksandr Amirkhanov. All rights reserved.
+
+Original project code and documentation are offered under the PolyForm
+Noncommercial License 1.0.0 in LICENSE. Uses outside its permissions require
+a separate written commercial agreement; see COMMERCIAL.md.
+Commercial licensing: license@amirkhanov.org
+
+Contributors retain ownership of their contributions. Applicable contributor
+notices and third-party licenses must be preserved. This notice does not
+relicense dependencies, Python, Ollama, model weights, or external datasets.
+No rights to third-party trademarks are granted by this project.

@@ -1,0 +1,24 @@
+{
+  "regions": ["us-east-1"],
+  "llm": {
+    "provider": "ollama",
+    "base_url": "http://127.0.0.1:11434",
+    "models": {
+      "fast": "qwen2.5:3b",
+      "classification": "qwen2.5:3b",
+      "reasoning": "qwen2.5:3b",
+      "report": "qwen2.5:3b"
+    },
+    "timeout": 120,
+    "max_context_records": 100
+  },
+  "config_history": true,
+  "object_metadata": true,
+  "sample_objects": false,
+  "sample_every_cycle": false,
+  "max_investigation_steps": 4,
+  "max_agent_investigations": 5,
+  "approved_activity": [],
+  "expected_hours": {},
+  "network_enrichment": {}
+}

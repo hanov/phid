@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phi-security"
+version = "2.0.0"
+license = "PolyForm-Noncommercial-1.0.0"
+license-files = ["LICENSE", "NOTICE", "COMMERCIAL.md", "LICENSE-COMMERCIAL.md", "CONTRIBUTING.md"]
+readme = "README.md"
+authors = [{name = "Oleksandr Amirkhanov"}]
+
+description = "Read-only AWS PHI/PII security investigation with a Python-only CLI"
+requires-python = ">=3.9"
+dependencies = ["boto3>=1.35,<2", "PyYAML>=6,<7"]
+
+[project.optional-dependencies]
+databases = ["psycopg[binary]>=3.2,<4"]
+local-ai = ["llama-cpp-python>=0.3,<0.4"]
+nlp = ["spacy>=3.8,<4"]
+
+[project.scripts]
+phid = "phi_security.cli:main"
+phi-sec = "phi_security.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["phi_security*"]
