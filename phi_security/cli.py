@@ -196,7 +196,7 @@ def parser_for_cli():
     parser.add_argument('--limit', type=int, default=20)
     parser.add_argument('--days', type=int)
     parser.add_argument('--flow', nargs=2, metavar=('FROM', 'TO'))
-    for flag in ['once', 'json', 'summary', 'activity', 'recalculate', 'no-refresh']:
+    for flag in ['once', 'json', 'summary', 'activity', 'recalculate', 'no-refresh', 'no-tui']:
         parser.add_argument('--' + flag, action='store_true')
     return parser
 
@@ -341,7 +341,7 @@ def main(argv=None):
         logger.info('%s  db=%s', args.command, config['db'])
         if args.command != 'agent':
             progress = None
-            if args.command == 'scan' and sys.stdin.isatty() and not args.json:
+            if args.command == 'scan' and sys.stdin.isatty() and not args.json and not args.no_tui:
                 from . import tui as _tui
                 scope, skip = _tui.launch(config)   # shows curses UI; raises SystemExit on Q
                 args.scope = scope
