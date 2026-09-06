@@ -353,11 +353,14 @@ def main(argv=None):
                 print()                             # blank line after curses teardown
                 progress = _tui.ScanProgress()
                 progress.start()
+            _t0 = time.monotonic()
             try:
                 result = execute(engine, args, params)
             finally:
                 if progress:
                     progress.stop()
+            if args.command == 'scan':
+                logger.info('elapsed  %.1fs', time.monotonic() - _t0)
             if args.dot:
                 from .topology import dot
                 fd = os.open(args.dot, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
