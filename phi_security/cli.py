@@ -198,6 +198,7 @@ def parser_for_cli():
     parser.add_argument('--flow', nargs=2, metavar=('FROM', 'TO'))
     for flag in ['once', 'json', 'summary', 'activity', 'recalculate', 'no-refresh', 'no-tui']:
         parser.add_argument('--' + flag, action='store_true')
+    parser.add_argument('-v', '--verbose', action='store_true', help='enable debug-level logging to stderr')
     return parser
 
 
@@ -324,7 +325,8 @@ def main(argv=None):
     engine = None
     handlers = {}
     try:
-        logging.basicConfig(level=logging.INFO, format='%(message)s', stream=sys.stderr)
+        _log_level = logging.DEBUG if getattr(args, 'verbose', False) else logging.INFO
+        logging.basicConfig(level=_log_level, format='%(message)s', stream=sys.stderr)
         config = load(args.config, args.db)
         if args.llm: config['llm']['provider'] = args.llm
         if args.model: config['llm']['model'] = args.model; config['llm']['models'] = {}
