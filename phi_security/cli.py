@@ -156,6 +156,9 @@ def _tty_summary(command, result):
             lines.append(label)
         if total > 5:
             lines.append(f"  ... {total - 5} more (use --output FILE for full JSON)")
+    elif command == 'ask':
+        ans = result.get('answer') or result.get('summary', '')
+        lines.append('ask  ' + (ans[:120] if ans else '(no answer)'))
     else:
         # For all other commands: fall through to JSON
         return False
