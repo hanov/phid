@@ -182,7 +182,7 @@ def parser_for_cli():
     parser.add_argument('--version', action='version', version='phid 2.0.0')
     parser.add_argument('--license', action='store_true', help='print bundled license and copyright notices')
     parser.add_argument('--man', action='store_true', help='print full manual and exit')
-    parser.add_argument('command', nargs='?', choices=['man', 'scan', 'inventory', 'data-map', 'exposure', 'iam', 'logs', 'investigate', 'investigations', 'incidents', 'incident', 'findings', 'evidence', 'baselines', 'classifications', 'ask', 'agent', 'cycles', 'health', 'report', 'controls', 'llm-runs', 'classify'])
+    parser.add_argument('command', nargs='?', choices=['man', 'scan', 'inventory', 'data-map', 'exposure', 'iam', 'logs', 'investigate', 'investigations', 'incidents', 'incident', 'findings', 'evidence', 'baselines', 'classifications', 'ask', 'agent', 'cycles', 'health', 'report', 'controls', 'llm-runs', 'classify', 'config-check'])
     parser.add_argument('value', nargs='?', help='record ID or quoted question')
     for flag in ['resource', 'identity', 'classification', 'regions', 'output', 'config', 'db', 'view', 'severity', 'status', 'type', 'source', 'risk-level', 'incident-id', 'investigation-id', 'trigger', 'note', 'principal', 'log-group', 'skip']:
         parser.add_argument('--' + flag)
@@ -232,6 +232,8 @@ def execute(engine, args, params):
             from .llm import Router
             result['modelCommentary'] = Router(engine.config, engine.store).query('Summarize the privacy evidence and its limitations.', result['evidence'], role='report')
         return result
+    if command == 'config-check':
+        return {'status': 'ok', 'db': engine.config.get('db'), 'regions': engine.config.get('regions', []), 'llm': engine.config.get('llm', {}).get('provider', 'none'), 'version': '2.0.0'}
     if command == 'scan':
         return engine.scan(params, args.scope)
     if command == 'investigate':
