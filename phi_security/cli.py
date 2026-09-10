@@ -199,7 +199,7 @@ def parser_for_cli():
     parser.add_argument('--limit', type=int, default=20)
     parser.add_argument('--days', type=int)
     parser.add_argument('--flow', nargs=2, metavar=('FROM', 'TO'))
-    for flag in ['once', 'json', 'summary', 'activity', 'recalculate', 'no-refresh', 'no-tui']:
+    for flag in ['once', 'json', 'summary', 'activity', 'recalculate', 'no-refresh', 'no-tui', 'dry-run']:
         parser.add_argument('--' + flag, action='store_true')
     parser.add_argument('-v', '--verbose', action='store_true', help='enable debug-level logging to stderr')
     return parser
@@ -327,6 +327,8 @@ def main(argv=None):
             params.update(params['timeRange'])
     if args.no_refresh:
         params['refresh'] = False
+    if getattr(args, 'dry_run', False):
+        params['dryRun'] = True
     engine = None
     handlers = {}
     try:
