@@ -155,7 +155,7 @@ def _tty_summary(command, result):
             label = f"  [{sev}]  {item.get('type', item.get('classification', ''))}  {item.get('resource', item.get('arn', ''))}"
             lines.append(label)
         if total > 5:
-            lines.append(f"  ... {total - 5} more (use --output FILE for full JSON)")
+            lines.append(f"  ... {total - 5} more  (--page 2 for next  --limit {total} for all  --output FILE for full JSON)")
     elif command == 'ask':
         ans = result.get('answer') or result.get('summary', '')
         lines.append('ask  ' + (ans[:120] if ans else '(no answer)'))
