@@ -30,7 +30,7 @@ def resolve_scope(selected):
     """Map a list of selected service keys to (scope_str, skip_services_list)."""
     sel = set(selected)
     if not sel:
-        return 'all', list(_ALL_KEYS)
+        return 'all', []
     if sel == {'s3'}:
         return 's3', []
     if sel == {'databases'}:
