@@ -350,6 +350,8 @@ def main(argv=None):
         if getattr(args, 'skip', None) and args.command in ('scan', 'agent'):
             config['skip_services'] = [s.strip() for s in args.skip.split(',') if s.strip()]
         logger.info('%s  db=%s', args.command, config['db'])
+        if args.command in ('scan', 'agent'):
+            logger.info('regions  %s', ', '.join(config.get('regions', ['us-east-1'])))
         if args.command != 'agent':
             progress = None
             if args.command == 'scan' and sys.stdin.isatty() and not args.json and not args.no_tui:
