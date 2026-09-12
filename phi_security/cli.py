@@ -320,7 +320,7 @@ def main(argv=None):
         if getattr(args, option) is not None:
             params[key] = getattr(args, option)
     if args.regions:
-        params['regions'] = [r.strip() for r in args.regions.split(',')]
+        params['regions'] = [r.strip() for r in args.regions.split(',') if r.strip()]
     if args.from_time:
         params['timeRange'] = {'from': args.from_time, **({'to': args.to_time} if args.to_time else {})}
         if args.command not in ['scan', 'agent', 'investigate']:
