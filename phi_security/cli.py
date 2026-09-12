@@ -150,7 +150,7 @@ def _tty_summary(command, result):
     elif command in ('findings', 'inventory'):
         total = result.get('total', 0)
         lines.append(f"{command}  total={total}")
-        for item in result.get('findings', result.get('data', []))[:5]:
+        for item in (result.get('findings') or result.get('data') or result.get('items', []))[:5]:
             sev = item.get('severity', '')
             label = f"  [{sev}]  {item.get('type', item.get('classification', ''))}  {item.get('resource', item.get('arn', ''))}"
             lines.append(label)
