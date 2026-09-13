@@ -121,7 +121,7 @@ class Collector:
             if loc is not None: actual = loc.get('LocationConstraint') or 'us-east-1'
             if actual == 'EU': actual = 'eu-west-1'
             if actual not in self.config['regions']: continue
-            logger.info('  s3  %s  region=%s', name, actual)
+            logger.info('  s3  %s  region=%s', name, actual or 'unknown')
             enc = self.aws.call('s3','get_bucket_encryption',actual,Bucket=name)
             encryption = {'type':'unknown'}
             if enc:
