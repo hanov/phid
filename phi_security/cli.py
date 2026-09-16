@@ -143,7 +143,7 @@ def _tty_summary(command, result):
             if missing:
                 lines.append(f"  gaps       {', '.join(dict.fromkeys(missing))}")
     elif command == 'health':
-        lines.append(f"status={result.get('status')}  account={result.get('account', 'none')}  version={result.get('version', '?')}")
+        lines.append(f"status={result.get('status')}  account={result.get('account') or 'none'}  version={result.get('version', '?')}")
         last = result.get('lastScan') or {}
         if last:
             lines.append(f"  last scan  {last.get('status')}  {last.get('completedAt', '')[:19]}")
