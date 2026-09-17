@@ -142,7 +142,7 @@ def _run_launch(stdscr, config):
         # ── action row 1: Check All  |  Uncheck All  |  nav hint ─────────
         def act(row, col, label, idx):
             is_cur = (cursor == idx)
-            put(row, col - 2, '>' if is_cur else ' ',
+            put(row, max(0, col - 2), '>' if is_cur else ' ',
                 curses.A_BOLD if is_cur else curses.A_NORMAL)
             put(row, col, label,
                 curses.A_BOLD if is_cur else curses.A_DIM)
