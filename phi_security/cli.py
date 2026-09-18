@@ -134,7 +134,7 @@ def _tty_summary(command, result):
         cov = result.get('coverage', [])
         collected = sum(1 for c in cov if c.get('status') == 'COLLECTED')
         other = len(cov) - collected
-        lines.append(f"{result.get('status')}  {result.get('scanId')}  scope={result.get('scope', 'all')}  account={result.get('account', '?')}")
+        lines.append(f"{result.get('status', 'UNKNOWN')}  {result.get('scanId', '')}  scope={result.get('scope', 'all')}  account={result.get('account', '?')}")
         lines.append(f"  resources  {s.get('total', 0)}  (phi={s.get('withPhi', 0)}  pii={s.get('withPii', 0)}  public={s.get('publiclyExposed', 0)}  unencrypted={s.get('unencrypted', 0)})")
         lines.append(f"  findings   {s.get('findingsCount', 0)}  (critical={sev.get('CRITICAL', 0)}  high={sev.get('HIGH', 0)}  medium={sev.get('MEDIUM', 0)}  low={sev.get('LOW', 0)})")
         lines.append(f"  coverage   {collected} collected  {other} other  events={result.get('eventsScanned', 0)}")
