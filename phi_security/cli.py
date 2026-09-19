@@ -314,6 +314,11 @@ def main(argv=None):
         parser.error('--note requires incident ID')
     if args.flow and args.command != 'data-map':
         parser.error('--flow requires data-map')
+    _KNOWN_SERVICES = {'s3', 'iam', 'databases', 'logs', 'infrastructure', 'telemetry', 'integrations'}
+    if getattr(args, 'skip', None):
+        _bad = [s.strip() for s in args.skip.split(',') if s.strip() and s.strip() not in _KNOWN_SERVICES]
+        if _bad:
+            parser.error('unknown --skip service(s): ' + ', '.join(_bad) + '  (valid: ' + ', '.join(sorted(_KNOWN_SERVICES)) + ')')
     params = {k: getattr(args, k) for k in ['resource', 'identity', 'classification', 'severity', 'status', 'type', 'source', 'trigger', 'note'] if getattr(args, k)}
     params.update(page=args.page, limit=args.limit)
     for option, key in [('risk_level', 'riskLevel'), ('incident_id', 'incidentId'), ('investigation_id', 'investigationId'), ('principal', 'principalId'), ('days', 'days')]:
