@@ -193,7 +193,7 @@ def parser_for_cli():
     parser.add_argument('--html', metavar='FILE', help='write a self-contained dashboard of all stored findings (scan, findings, report, agent)')
     parser.add_argument('--from', dest='from_time')
     parser.add_argument('--to', dest='to_time')
-    parser.add_argument('--scope', choices=['all', 's3', 'databases', 'logs'], default='all')
+    parser.add_argument('--scope', choices=['all', 's3', 'databases', 'logs'], default='all', help='collection scope (default: all)')
     parser.add_argument('--interval', type=int)
     parser.add_argument('--page', type=int, default=1)
     parser.add_argument('--limit', type=int, default=20)
