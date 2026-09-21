@@ -148,7 +148,7 @@ def _tty_summary(command, result):
         if last:
             lines.append(f"  last scan  {last.get('status')}  {last.get('completedAt', '')[:19]}")
     elif command in ('findings', 'inventory'):
-        total = result.get('total', 0)
+        total = result.get('total') or result.get('count', 0)
         lines.append(f"{command}  total={total}")
         for item in (result.get('findings') or result.get('data') or result.get('items', []))[:5]:
             sev = item.get('severity', '')
