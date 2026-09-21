@@ -42,3 +42,19 @@ class TestResolveScope(unittest.TestCase):
         scope, skip = resolve_scope([])
         self.assertEqual(scope, 'all')
         self.assertEqual(skip, [])
+
+
+class TestNoTuiFlag(unittest.TestCase):
+    """--no-tui is accepted by the parser and defaults to False."""
+
+    def _parser(self):
+        from phi_security.cli import parser_for_cli
+        return parser_for_cli()
+
+    def test_no_tui_accepted(self):
+        args = self._parser().parse_args(['scan', '--no-tui'])
+        self.assertTrue(args.no_tui)
+
+    def test_no_tui_default_false(self):
+        args = self._parser().parse_args(['scan'])
+        self.assertFalse(args.no_tui)
