@@ -58,3 +58,19 @@ class TestNoTuiFlag(unittest.TestCase):
     def test_no_tui_default_false(self):
         args = self._parser().parse_args(['scan'])
         self.assertFalse(args.no_tui)
+
+
+class TestSkipFlag(unittest.TestCase):
+    """--skip is accepted; invalid names produce an argument error."""
+
+    def _parser(self):
+        from phi_security.cli import parser_for_cli
+        return parser_for_cli()
+
+    def test_skip_argument_parsed(self):
+        args = self._parser().parse_args(['scan', '--skip', 'iam,telemetry'])
+        self.assertEqual(args.skip, 'iam,telemetry')
+
+    def test_skip_default_none(self):
+        args = self._parser().parse_args(['scan'])
+        self.assertIsNone(args.skip)
