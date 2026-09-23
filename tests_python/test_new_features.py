@@ -74,3 +74,23 @@ class TestSkipFlag(unittest.TestCase):
     def test_skip_default_none(self):
         args = self._parser().parse_args(['scan'])
         self.assertIsNone(args.skip)
+
+
+class TestVerboseFlag(unittest.TestCase):
+    """-v / --verbose are recognised by the parser."""
+
+    def _parser(self):
+        from phi_security.cli import parser_for_cli
+        return parser_for_cli()
+
+    def test_verbose_long_form(self):
+        args = self._parser().parse_args(['health', '--verbose'])
+        self.assertTrue(args.verbose)
+
+    def test_verbose_short_form(self):
+        args = self._parser().parse_args(['health', '-v'])
+        self.assertTrue(args.verbose)
+
+    def test_verbose_default_false(self):
+        args = self._parser().parse_args(['health'])
+        self.assertFalse(args.verbose)
