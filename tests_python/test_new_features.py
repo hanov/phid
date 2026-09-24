@@ -94,3 +94,19 @@ class TestVerboseFlag(unittest.TestCase):
     def test_verbose_default_false(self):
         args = self._parser().parse_args(['health'])
         self.assertFalse(args.verbose)
+
+
+class TestDryRunFlag(unittest.TestCase):
+    """--dry-run is parsed and forwarded in params as dryRun=True."""
+
+    def _parser(self):
+        from phi_security.cli import parser_for_cli
+        return parser_for_cli()
+
+    def test_dry_run_accepted(self):
+        args = self._parser().parse_args(['scan', '--dry-run'])
+        self.assertTrue(args.dry_run)
+
+    def test_dry_run_default_false(self):
+        args = self._parser().parse_args(['scan'])
+        self.assertFalse(args.dry_run)
