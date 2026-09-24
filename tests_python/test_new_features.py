@@ -141,3 +141,29 @@ class TestAskTtySummary(unittest.TestCase):
         handled, out = self._summary({})
         self.assertTrue(handled)
         self.assertIn('no answer', out)
+
+
+class TestScanScopeSummary(unittest.TestCase):
+    """scan TTY summary includes the scope field."""
+
+    def _summary(self, result):
+        from phi_security.cli import _tty_summary
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            _tty_summary('scan', result)
+        return buf.getvalue()
+
+    def _base_result(self, scope='all'):
+        return {
+            'status': 'COMPLETE', 'scanId': 'scan-abc', 'scope': scope,
+            'account': '123456789012', 'summary': {}, 'findings': [],
+            'coverage': [], 'eventsScanned': 0,
+        }
+
+    def test_scope_all_shown(self):
+        out = self._summary(self._base_result('all'))
+        self.assertIn('scope=all', out)
+
+    def test_scope_s3_shown(self):
+        out = self._summary(self._base_result('s3'))
+        self.assertIn('scope=s3', out)
