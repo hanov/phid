@@ -110,3 +110,13 @@ class TestDryRunFlag(unittest.TestCase):
     def test_dry_run_default_false(self):
         args = self._parser().parse_args(['scan'])
         self.assertFalse(args.dry_run)
+
+
+class TestConfigCheckCommand(unittest.TestCase):
+    """config-check is a valid argparse command choice."""
+
+    def test_config_check_in_choices(self):
+        from phi_security.cli import parser_for_cli
+        parser = parser_for_cli()
+        args = parser.parse_args(['config-check'])
+        self.assertEqual(args.command, 'config-check')
