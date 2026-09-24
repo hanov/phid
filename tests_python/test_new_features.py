@@ -120,3 +120,24 @@ class TestConfigCheckCommand(unittest.TestCase):
         parser = parser_for_cli()
         args = parser.parse_args(['config-check'])
         self.assertEqual(args.command, 'config-check')
+
+
+class TestAskTtySummary(unittest.TestCase):
+    """_tty_summary renders a one-liner for the ask command."""
+
+    def _summary(self, result):
+        from phi_security.cli import _tty_summary
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            handled = _tty_summary('ask', result)
+        return handled, buf.getvalue()
+
+    def test_ask_with_answer_key(self):
+        handled, out = self._summary({'answer': 'No PHI found in logs.'})
+        self.assertTrue(handled)
+        self.assertIn('No PHI found', out)
+
+    def test_ask_with_empty_result(self):
+        handled, out = self._summary({})
+        self.assertTrue(handled)
+        self.assertIn('no answer', out)
