@@ -167,3 +167,24 @@ class TestScanScopeSummary(unittest.TestCase):
     def test_scope_s3_shown(self):
         out = self._summary(self._base_result('s3'))
         self.assertIn('scope=s3', out)
+
+
+class TestPaginationHint(unittest.TestCase):
+    """Findings TTY summary shows a --page 2 hint when results are truncated."""
+
+    def _summary(self, total, items):
+        from phi_security.cli import _tty_summary
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            _tty_summary('findings', {'total': total, 'findings': items})
+        return buf.getvalue()
+
+    def test_hint_shown_when_truncated(self):
+        items = [{'severity': 'HIGH', 'type': 'T', 'resource': 'r'} for _ in range(6)]
+        out = self._summary(6, items)
+        self.assertIn('--page 2', out)
+
+    def test_hint_absent_when_fits(self):
+        items = [{'severity': 'LOW', 'type': 'T', 'resource': 'r'} for _ in range(3)]
+        out = self._summary(3, items)
+        self.assertNotIn('--page 2', out)
