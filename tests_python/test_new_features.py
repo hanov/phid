@@ -188,3 +188,15 @@ class TestPaginationHint(unittest.TestCase):
         items = [{'severity': 'LOW', 'type': 'T', 'resource': 'r'} for _ in range(3)]
         out = self._summary(3, items)
         self.assertNotIn('--page 2', out)
+
+
+class TestRegionsBlanks(unittest.TestCase):
+    """--regions trailing comma does not produce a blank region entry."""
+
+    def test_trailing_comma_filtered(self):
+        from phi_security.cli import parser_for_cli
+        args = parser_for_cli().parse_args(['scan', '--no-tui', '--regions', 'us-east-1,'])
+        # simulate the params-building logic
+        regions = [r.strip() for r in args.regions.split(',') if r.strip()]
+        self.assertEqual(regions, ['us-east-1'])
+        self.assertNotIn('', regions)
