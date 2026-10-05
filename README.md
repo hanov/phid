@@ -2,6 +2,24 @@
 
 Python-only, read-only AWS discovery and investigation. Commands run directly against the Python engine and local SQLite database. No application server or web API layer is created. All operations run through Python CLI commands. Optional AI uses your existing local Ollama or in-process GGUF inference; hosted providers are rejected.
 
+## Quick start
+
+```sh
+# Option 1 — Python source (all platforms)
+python3 -m venv .venv && . .venv/bin/activate
+pip install -e .
+phid --version
+
+# Option 2 — pre-built macOS Apple Silicon binary
+curl -fsSL https://YOUR_SITE/install.sh | bash -s -- --base-url https://YOUR_SITE
+
+# First scan (needs AWS credentials in the environment)
+export AWS_PROFILE=myprofile
+phid scan --no-tui --output scan.json   # non-interactive
+phid findings --severity HIGH           # review findings
+phid report --html report.html          # generate dashboard
+```
+
 ## Standalone macOS binary
 
 The native Apple Silicon executable is named `phid` and installs at
