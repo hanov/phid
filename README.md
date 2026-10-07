@@ -1,3 +1,7 @@
+![Tests](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/test.yml/badge.svg)
+![Lint](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/lint.yml/badge.svg)
+![Build](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/build.yml/badge.svg)
+
 # phid — PHI/PII security CLI
 
 Python-only, read-only AWS discovery and investigation. Commands run directly against the Python engine and local SQLite database. No application server or web API layer is created. All operations run through Python CLI commands. Optional AI uses your existing local Ollama or in-process GGUF inference; hosted providers are rejected.
