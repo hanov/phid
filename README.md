@@ -144,6 +144,32 @@ All results are JSON (`--json` is accepted explicitly). `--output FILE` writes w
 
 CLI options override environment configuration. Configuration accepts flat JSON or nested YAML (`aws`, `storage`, `llm`, `agent`, `detection`). `PHI_CONFIG` selects a JSON configuration; `PHI_DB` selects the database. AWS region environment variables override JSON regions; `--regions` overrides them for collection. See `phi-sec --man` for commands and filters.
 
+
+## Command reference
+
+| Command | Description |
+|---------|-------------|
+| `scan` | Collect AWS evidence; `--scope all\|s3\|databases\|logs` |
+| `inventory` | List or inspect resources |
+| `findings` | List or inspect findings; `--severity HIGH` |
+| `evidence` | List or inspect evidence records |
+| `data-map` | Show data lineage; `--dot FILE` for Graphviz |
+| `iam` | Analyze IAM roles, principals, and excessive access |
+| `exposure` | Show public, cross-account, or third-party exposure |
+| `logs` | CloudWatch log group findings |
+| `investigate` | Start an investigation review |
+| `investigations` | List or inspect investigation reviews |
+| `incidents` | List incidents |
+| `incident` | Inspect an incident; `--note TEXT` persists a note |
+| `baselines` | Behavioral baselines; `--recalculate --days N` |
+| `ask` | Natural-language questions answered from stored evidence |
+| `classify` | Detect PHI/PII in text; `--input FILE` |
+| `controls` | Technical control observations |
+| `health` | Local database and account status |
+| `report` | Export all findings as HTML/JSON |
+| `agent` | Repeated foreground scans; `--interval N` |
+| `config-check` | Inspect resolved configuration (db, regions, LLM) |
+
 ## Local AI and evidence-driven investigation
 
 Ollama must already be running locally; this tool never starts a server. Use an installed model:
