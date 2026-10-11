@@ -27,7 +27,7 @@ jobs:
         run: python packaging/build_binary.py
 
       - name: Smoke-test binary
-        run: python packaging/smoke_binary.py
+        run: python packaging/smoke_binary.py dist/phid
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
