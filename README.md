@@ -1,4 +1,4 @@
-[![Tests](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/test.yml/badge.svg)](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/test.yml) [![Lint](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/lint.yml/badge.svg)](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/lint.yml) [![Build](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/build.yml)
+[![Tests](https://github.com/hanov/phid/actions/workflows/test.yml/badge.svg)](https://github.com/hanov/phid/actions/workflows/test.yml) [![Lint](https://github.com/hanov/phid/actions/workflows/lint.yml/badge.svg)](https://github.com/hanov/phid/actions/workflows/lint.yml) [![Build](https://github.com/hanov/phid/actions/workflows/build.yml/badge.svg)](https://github.com/hanov/phid/actions/workflows/build.yml)
 
 # phid — Personal Health Information Detector
 
