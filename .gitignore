@@ -1,3 +1,7 @@
+.DS_Store
+todo.txt
+make_43_commits.sh
+
 node_modules/
 .env
 .env.*
