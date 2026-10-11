@@ -1,12 +1,10 @@
 [![Tests](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/test.yml/badge.svg)](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/test.yml) [![Lint](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/lint.yml/badge.svg)](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/lint.yml) [![Build](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/build.yml)
 
----
+# phid — Personal Health Information Detector
 
 > **Not a developer?** Every healthcare organization stores patient information — names, dates of birth, diagnoses, insurance details — across dozens of cloud systems. Keeping track of where that data lives, who can reach it, and whether it was ever seen by the wrong person is a full-time job no team can do manually. **phid** does it automatically. It connects to your Amazon cloud account, reads the evidence silently (it never changes anything), and produces a clear picture: where patient data exists, which staff or systems can access it, whether anything unusual happened, and whether any information ended up somewhere it should not be. When it finds a concern it writes a plain-language incident report with a recommended next step — no engineering background required to read it. Patient data never leaves your own systems; all analysis runs locally on your machine.
 
 ---
-
-# phid — Personal Health Information Detector
 
 **Catch patient data accidents before they become incidents.**
 
