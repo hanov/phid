@@ -2,6 +2,8 @@
 ![Lint](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/lint.yml/badge.svg)
 ![Build](https://github.com/YOUR_ORG/phi-pii-tool/actions/workflows/build.yml/badge.svg)
 
+> **In plain terms:** Every healthcare organization stores patient information — names, dates of birth, diagnoses, insurance details — across dozens of cloud systems. Keeping track of where that information lives, who can access it, and whether it has ever been seen by the wrong person is a full-time job that no team can do manually. **phid** does that job automatically. It connects to your Amazon cloud account, silently reads the evidence (it never changes anything), and produces a clear picture: where patient data exists, which staff or systems can reach it, whether anything unusual happened, and whether any information may have ended up somewhere it should not be. When it finds a concern it writes a plain-language incident report with a recommended next step for your team — no engineering background required to read it. Patient data never leaves your own systems; all analysis runs locally on your own machine.
+
 # phid — PHI/PII security CLI
 
 Python-only, read-only AWS discovery and investigation. Commands run directly against the Python engine and local SQLite database. No application server or web API layer is created. All operations run through Python CLI commands. Optional AI uses your existing local Ollama or in-process GGUF inference; hosted providers are rejected.
