@@ -6,11 +6,11 @@
 
 ---
 
-# phid — PHI/PII Security CLI
+# phid — Personal Health Information Detector
 
-**Automatically find, track, and investigate patient data exposure across your AWS infrastructure.**
+**Catch patient data accidents before they become incidents.**
 
-phid is a read-only command-line tool for security, privacy, and compliance teams. It scans your AWS account, maps where PHI and PII live, detects unusual access, and produces evidence-based incident reports — without ever modifying your data or sending anything outside your network.
+phid continuously watches your AWS infrastructure for signs that protected health information (PHI) or personal data (PII) is exposed, mishandled, or accessed in unexpected ways — and alerts your team before a small oversight becomes a reportable breach. It is read-only: it never modifies your data, never changes permissions, and never sends anything outside your network.
 
 | Cloud | Status |
 |---|---|
