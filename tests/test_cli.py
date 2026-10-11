@@ -156,3 +156,44 @@ class CLITest(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(out, "")
         self.assertEqual(json.loads(err)["status"], 404)
+
+
+class CliBoundaryTest(unittest.TestCase):
+    def test_classify_cli_and_dot_cli(self):
+        import contextlib
+
+        from phi_security.cli import main
+
+        with tempfile.TemporaryDirectory() as directory:
+            db = str(Path(directory) / "test.db")
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                code = main(["classify", "MRN: 12345", "--db", db])
+            self.assertEqual(code, 0)
+            self.assertEqual(
+                json.loads(output.getvalue())["classification"], "PHI_HIGH"
+            )
+            graph = Path(directory) / "graph.dot"
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(main(["data-map", "--dot", str(graph), "--db", db]), 0)
+            self.assertTrue(graph.read_text().startswith("digraph"))
+            self.assertEqual(graph.stat().st_mode & 0o777, 0o600)
+
+    def test_cli_blocks_hardlink_output_to_database(self):
+        import contextlib
+
+        from phi_security.cli import main
+        from phi_security.storage import Store
+
+        with tempfile.TemporaryDirectory() as directory:
+            db = Path(directory) / "db.sqlite"
+            Store(str(db)).close()
+            target = Path(directory) / "other-name.json"
+            os.link(db, target)
+            with (
+                contextlib.redirect_stderr(io.StringIO()),
+                self.assertRaises(SystemExit) as raised,
+            ):
+                main(["health", "--db", str(db), "--output", str(target)])
+            self.assertEqual(raised.exception.code, 2)
+            self.assertTrue(db.read_bytes().startswith(b"SQLite"))

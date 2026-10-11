@@ -18,8 +18,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install bandit
-        run: pip install bandit[toml]
+      - name: Install development tools
+        run: pip install -e '.[dev]'
 
       - name: Run bandit
         run: bandit -r phi_security/ -ll -ii --exit-zero

@@ -18,11 +18,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install ruff
-        run: pip install ruff
+      - name: Install development tools
+        run: pip install -e '.[dev]'
 
       - name: Lint
-        run: ruff check phi_security/ tests_python/
+        run: python -m ruff check phi_security/ tests/
 
       - name: Format check
-        run: ruff format --check phi_security/ tests_python/
+        run: python -m ruff format --check phi_security/ tests/

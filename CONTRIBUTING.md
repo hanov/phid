@@ -43,11 +43,30 @@ Previously submitted material is not retroactively covered without agreement.
 ## Development
 
 Discuss substantial changes with the maintainer, use synthetic test fixtures,
-explain behavior and validation, and run:
+explain behavior and validation. Use Python 3.9 or newer and install the shared
+development tools in a virtual environment:
 
 ```sh
-python3 -m unittest discover -s tests_python -v
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[dev]'
 ```
+
+For database integration work, install `'.[dev,databases]'` instead. CI uses the
+same extras. Run the standard validation commands from the repository root:
+
+```sh
+python -m pytest
+python -m ruff check phi_security/ tests/
+python -m ruff format --check phi_security/ tests/
+```
+
+Tests are grouped by behavior under `tests/`; shared synthetic data and collector
+doubles live in `tests/helpers.py`. Tests must use mocks or local temporary files,
+not live AWS credentials or real patient data. Run one area with, for example,
+`python -m pytest tests/test_privacy.py`. Coverage is reported by default.
+
+To run the security scan locally: `python -m bandit -r phi_security/ -ll -ii`.
 
 Preserve third-party notices and report dependency/model-license changes.
 Commercial licenses cover project rights only; do not assume they relicense

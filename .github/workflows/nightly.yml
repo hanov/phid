@@ -24,7 +24,7 @@ jobs:
       - name: Install package and extras
         run: |
           python -m pip install --upgrade pip
-          pip install -e '.[databases]' pytest pytest-cov
+          pip install -e '.[dev,databases]'
 
       - name: Run tests
-        run: python3 -m pytest tests_python/ -v --tb=long
+        run: python -m pytest --tb=long

@@ -50,7 +50,8 @@ The implementation covers the principal workflows, but it is **not a claim that 
 Run:
 
 ```sh
-python3 -m unittest discover -s tests_python -v
+python -m pip install -e '.[dev]'
+python -m pytest
 ```
 
 The suite covers the original engine, CLI/HTML, requirement acceptance, local inference protocol validation, read-only allowlists, scoped lifecycle, canonical event counts, classification precedence, approved activity, bounded sampling, graph escaping and botocore parameter shapes. Python tests are defined against user-visible behavior; removed HTTP transport tests are not requirements.

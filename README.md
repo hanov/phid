@@ -273,7 +273,8 @@ The container runs a single CLI command and exits. No ports are exposed.
 - Findings do not confirm a breach — review coverage and evidence before drawing conclusions.
 
 ```bash
-python3 -m unittest discover -s tests_python -v
+python -m pip install -e '.[dev]'
+python -m pytest
 ```
 
 See [`docs/implementation.md`](docs/implementation.md) for current coverage details.

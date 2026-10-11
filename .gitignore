@@ -19,3 +19,15 @@ coverage/
 
 build/
 dist/
+
+# Local development notes (not distributed)
+/docs/python-requirements-audit.md
+/licensing/README.md
+/licensing/todo.txt
+
+# Test and lint outputs
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/

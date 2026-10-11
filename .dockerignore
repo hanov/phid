@@ -3,7 +3,6 @@ data/
 .env
 .env.*
 tests/
-tests_python/
 mock/
 examples/
 docs/
