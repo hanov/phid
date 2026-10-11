@@ -19,7 +19,7 @@ pip install -e .
 phid --version
 
 # Option 2 — pre-built macOS Apple Silicon binary
-curl -fsSL https://YOUR_SITE/install.sh | bash -s -- --base-url https://YOUR_SITE
+curl -fsSL https://phid.amirkhanov.org/install.sh | bash -s -- --base-url https://phid.amirkhanov.org
 
 # First scan (needs AWS credentials in the environment)
 export AWS_PROFILE=myprofile
@@ -276,7 +276,7 @@ For static hosting, publish the page together with `install.sh`, those download
 artifacts, the linked legal documents, `README.md`, `config/example.json`, and
 `docs/implementation.md`, `packaging/build_binary.py`, and
 `packaging/smoke_binary.py`. Do not publish the repository's `data/` directory or
-credentials. Replace `https://YOUR_SITE` in the installation example with the
+credentials. Replace `https://phid.amirkhanov.org` in the installation example with the
 actual public site URL before publishing. No public repository URL is configured;
 the source button downloads the included source archive.
 
