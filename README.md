@@ -183,12 +183,12 @@ CLI options override environment configuration. Configuration accepts flat JSON 
 Ollama must already be running locally; this tool never starts a server. Use an installed model:
 
 ```sh
-phid ask "Who accessed patient data yesterday?" --llm ollama --model qwen2.5:3b
+phid ask "Who accessed patient data yesterday?" --llm ollama --model gemma3:4b
 phid investigate --resource medical-bucket --no-refresh --config config/local-example.json
 phid report --html data/scan-report.html --config config/local-example.json
 phid llm-runs
 phid classify 'MRN: 883122'
-phid classify --input example.txt --llm ollama --model qwen2.5:3b
+phid classify --input example.txt --llm ollama --model gemma3:4b
 ```
 
 `config/local-example.json` supports separate `fast`, `classification`, `reasoning`, and `report` models. Only loopback Ollama addresses are accepted; proxies and redirects are disabled. Model output must reference supplied evidence IDs. Commentary remains advisory and is never promoted to verified evidence or executed as a command. Model run metadata is persisted without raw input payloads.
