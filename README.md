@@ -8,6 +8,8 @@
 
 Python-only, read-only AWS discovery and investigation. Commands run directly against the Python engine and local SQLite database. No application server or web API layer is created. All operations run through Python CLI commands. Optional AI uses your existing local Ollama or in-process GGUF inference; hosted providers are rejected.
 
+**Cloud platform coverage:** AWS — current. Google Cloud — planned Q1 2027. Azure — planned Q2 2027.
+
 ## Quick start
 
 ```sh
@@ -55,7 +57,7 @@ python3 packaging/build_binary.py
 ```
 
 The output is `dist/phid`. The local macOS build is ad-hoc signed, not Apple-notarized.
-`phid` is also installed by pip; `phi-sec` remains a compatibility alias.
+`phid` is the primary command; `phi-sec` remains a compatibility alias.
 
 ## Install and run
 
@@ -65,11 +67,11 @@ Requires Python 3.9+ and boto3. From this directory:
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -e .
-phi-sec --man
-phi-sec --help
+phid --man
+phid --help
 ```
 
-You can also run `python3 -m phi_security` or `python3 -m phi_security.cli` with the same arguments. `phi-sec man` and `phi-sec --man` print the complete manual without opening a database or contacting AWS.
+You can also run `python3 -m phi_security` or `python3 -m phi_security.cli` with the same arguments. `phid man` and `phid --man` print the complete manual without opening a database or contacting AWS.
 
 ## Scan AWS
 
@@ -77,10 +79,10 @@ Use the standard boto3 credential chain, such as an AWS profile with read-only p
 
 ```sh
 export AWS_PROFILE=production
-phi-sec scan --regions us-east-1,us-west-2 --output report.json
-phi-sec scan --scope s3
-phi-sec scan --scope logs --from 24h
-phi-sec scan --config config/example.json --db data/production.db
+phid scan --regions us-east-1,us-west-2 --output report.json
+phid scan --scope s3
+phid scan --scope logs --from 24h
+phid scan --config config/example.json --db data/production.db
 ```
 
 The default database is `data/phi-security.db`. Existing databases remain usable. Use a separate database per AWS account. Object-content sampling is disabled by default; explicitly configured sampling remains bounded and read-only. Raw log messages are not persisted.
@@ -88,30 +90,30 @@ The default database is `data/phi-security.db`. Existing databases remain usable
 ## Review stored results
 
 ```sh
-phi-sec health
-phi-sec inventory --classification PHI_HIGH --limit 100
-phi-sec inventory --summary
-phi-sec findings --severity HIGH
-phi-sec evidence --from 24h
-phi-sec data-map
-phi-sec iam --view principals
-phi-sec exposure --view public
-phi-sec logs --view groups
-phi-sec classifications
-phi-sec ask 'public sensitive data'
+phid health
+phid inventory --classification PHI_HIGH --limit 100
+phid inventory --summary
+phid findings --severity HIGH
+phid evidence --from 24h
+phid data-map
+phid iam --view principals
+phid exposure --view public
+phid logs --view groups
+phid classifications
+phid ask 'public sensitive data'
 ```
 
 `ask` routes access, location, log-leakage and movement questions to stored evidence, with keyword search as a fallback. “Today” and “yesterday” use UTC. It can add advisory local-model commentary when configured. Stored-data commands do not call AWS.
 
 ```sh
-phi-sec investigate --resource medical-bucket --no-refresh
-phi-sec investigations
-phi-sec investigations inv-EXAMPLE --view timeline
-phi-sec incidents
-phi-sec incident inc-EXAMPLE --view evidence
-phi-sec incident inc-EXAMPLE --note 'Reviewed by operations'
-phi-sec baselines --recalculate --days 30
-phi-sec baselines --view anomalies
+phid investigate --resource medical-bucket --no-refresh
+phid investigations
+phid investigations inv-EXAMPLE --view timeline
+phid incidents
+phid incident inc-EXAMPLE --view evidence
+phid incident inc-EXAMPLE --note 'Reviewed by operations'
+phid baselines --recalculate --days 30
+phid baselines --view anomalies
 ```
 
 Investigations refresh AWS evidence by default; `--no-refresh` uses only stored evidence. Notes and recalculated baselines update the local database.
@@ -121,11 +123,11 @@ Investigations refresh AWS evidence by default; `--no-refresh` uses only stored 
 Generate a dashboard after a scan, or regenerate it from the existing database without contacting AWS:
 
 ```sh
-phi-sec scan --html data/scan-report.html --output report.json
-phi-sec report --html data/scan-report.html
+phid scan --html data/scan-report.html --output report.json
+phid report --html data/scan-report.html
 # Also supported for findings and foreground monitoring:
-phi-sec findings --html data/scan-report.html
-phi-sec agent --interval 300 --html data/scan-report.html
+phid findings --html data/scan-report.html
+phid agent --interval 300 --html data/scan-report.html
 ```
 
 Open `data/scan-report.html` in a browser. The dashboard includes severity totals, **every stored finding**, resources, incidents, evidence, and the latest scan's coverage. Expand **Full details** for complete records. It is generated entirely in Python with embedded CSS: no JavaScript, server, CDN, or network access is needed to view it.
@@ -137,9 +139,9 @@ The HTML includes all retained database records across scan scopes, regardless o
 ## Foreground monitoring
 
 ```sh
-phi-sec agent --interval 300
-phi-sec agent --once --scope s3
-phi-sec cycles
+phid agent --interval 300
+phid agent --once --scope s3
+phid cycles
 ```
 
 Ctrl-C stops monitoring after the current scan. Each cycle is persisted. `--output FILE` replaces the file with the latest result; without it, each cycle prints a JSON document to stdout.
@@ -148,7 +150,7 @@ Ctrl-C stops monitoring after the current scan. Each cycle is persisted. `--outp
 
 All results are JSON (`--json` is accepted explicitly). `--output FILE` writes with owner-only permissions. Errors go to stderr. Exit codes: 0 success, 1 operation failure, 2 invalid arguments, 130 interruption. A `PARTIAL` scan exits 0: inspect `coverage` to identify collection gaps. A failed `agent --once` exits 1.
 
-CLI options override environment configuration. Configuration accepts flat JSON or nested YAML (`aws`, `storage`, `llm`, `agent`, `detection`). `PHI_CONFIG` selects a JSON configuration; `PHI_DB` selects the database. AWS region environment variables override JSON regions; `--regions` overrides them for collection. See `phi-sec --man` for commands and filters.
+CLI options override environment configuration. Configuration accepts flat JSON or nested YAML (`aws`, `storage`, `llm`, `agent`, `detection`). `PHI_CONFIG` selects a JSON configuration; `PHI_DB` selects the database. AWS region environment variables override JSON regions; `--regions` overrides them for collection. See `phid --man` for commands and filters.
 
 
 ## Command reference
@@ -181,12 +183,12 @@ CLI options override environment configuration. Configuration accepts flat JSON 
 Ollama must already be running locally; this tool never starts a server. Use an installed model:
 
 ```sh
-phi-sec ask "Who accessed patient data yesterday?" --llm ollama --model qwen2.5:3b
-phi-sec investigate --resource medical-bucket --no-refresh --config config/local-example.json
-phi-sec report --html data/scan-report.html --config config/local-example.json
-phi-sec llm-runs
-phi-sec classify 'MRN: 883122'
-phi-sec classify --input example.txt --llm ollama --model qwen2.5:3b
+phid ask "Who accessed patient data yesterday?" --llm ollama --model qwen2.5:3b
+phid investigate --resource medical-bucket --no-refresh --config config/local-example.json
+phid report --html data/scan-report.html --config config/local-example.json
+phid llm-runs
+phid classify 'MRN: 883122'
+phid classify --input example.txt --llm ollama --model qwen2.5:3b
 ```
 
 `config/local-example.json` supports separate `fast`, `classification`, `reasoning`, and `report` models. Only loopback Ollama addresses are accepted; proxies and redirects are disabled. Model output must reference supplied evidence IDs. Commentary remains advisory and is never promoted to verified evidence or executed as a command. Model run metadata is persisted without raw input payloads.
@@ -211,8 +213,8 @@ The default scan uses metadata and bounded telemetry. Optional configuration:
 - Optional NLP uses an already installed spaCy model via `nlp_model` and the `.[nlp]` extra. No model download occurs during scans.
 
 ```sh
-phi-sec controls
-phi-sec data-map --dot data/lineage.dot
+phid controls
+phid data-map --dot data/lineage.dot
 ```
 
 The graph includes candidate permissions, application routing, backups, encryption keys and observed copies. DOT can be rendered separately with Graphviz. The HTML report also includes relationships, investigations and control observations. Only complete scoped rescans close resolved configuration findings; historical behavior and incomplete scans do not erase findings.
@@ -222,9 +224,9 @@ Content sampling is skipped after the first agent cycle unless `sample_every_cyc
 ## Container
 
 ```sh
-docker build -t phi-sec .
-docker run --rm phi-sec --man
-docker run --rm -v phi-data:/data -v "$HOME/.aws:/home/phi/.aws:ro" -e AWS_PROFILE=production phi-sec scan
+docker build -t phid .
+docker run --rm phid --man
+docker run --rm -v phi-data:/data -v "$HOME/.aws:/home/phi/.aws:ro" -e AWS_PROFILE=production phid scan
 ```
 
 The container runs a CLI command and exits; it exposes no ports. Mounted AWS credentials must be readable by the container user.
@@ -243,7 +245,7 @@ Historical planning documents may describe the earlier implementation. Active re
 
 ## License and commercial use
 
-PHI/PII Security CLI (`phi-security` / `phi-sec`) is **source-available**, not
+PHI/PII Security CLI (`phid` / `phi-security`) is **source-available**, not
 OSI-approved Open Source. Original project material is licensed under
 [PolyForm Noncommercial 1.0.0](LICENSE), with the copyright notice in [NOTICE](NOTICE).
 You may use, study, modify, fork and distribute it for purposes permitted by that
