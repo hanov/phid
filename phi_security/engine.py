@@ -619,7 +619,7 @@ class Engine:
         if group == "health":
             return {
                 "status": "ok",
-                "version": "2.0.0",
+                "version": "2.0.1",
                 "environment": "live",
                 "readOnly": True,
                 "account": self.store.meta("account"),

@@ -205,7 +205,7 @@ def parser_for_cli():
         description="Python-only AWS PHI/PII investigator",
         epilog="Use --man for the complete manual.",
     )
-    parser.add_argument("--version", action="version", version="phid 2.0.0")
+    parser.add_argument("--version", action="version", version="phid 2.0.1")
     parser.add_argument(
         "--license",
         action="store_true",
@@ -373,7 +373,7 @@ def execute(engine, args, params):
             "db": engine.config.get("db"),
             "regions": engine.config.get("regions", []),
             "llm": engine.config.get("llm", {}).get("provider", "none"),
-            "version": "2.0.0",
+            "version": "2.0.1",
         }
     if command == "scan":
         return engine.scan(params, args.scope)
@@ -494,7 +494,7 @@ def main(argv=None):
         lines = [
             "",
             "  ╔" + "═" * inner + "╗",
-            "  " + _hrow("phid 2.0.0  \u2500  AWS PHI / PII Investigator"),
+            "  " + _hrow("phid 2.0.1  \u2500  AWS PHI / PII Investigator"),
             "  " + _hrow(f"Copyright \u00a9 2025-{year} Amirkhanov Oleksandr"),
             "  " + _hrow("https://phid.amirkhanov.org"),
             "  ╚" + "═" * inner + "╝",

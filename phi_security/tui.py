@@ -8,12 +8,12 @@ import threading
 import time
 from typing import ClassVar
 
-VERSION = "2.0.0"
+VERSION = "2.0.1"
 _YEAR = _dt.date.today().year
 COPYRIGHT = (
-    f"2024 - {_YEAR} Oleksandr Amirkhanov"
-    if _YEAR > 2024
-    else "2024 Oleksandr Amirkhanov"
+    f"2025 - {_YEAR} Oleksandr Amirkhanov"
+    if _YEAR > 2025
+    else "2025 Oleksandr Amirkhanov"
 )
 LICENSE = "PolyForm Noncommercial"
 
