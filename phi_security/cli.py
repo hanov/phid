@@ -451,7 +451,74 @@ def main(argv=None):
         print(MANUAL)
         return 0
     if not args.command:
-        parser.error("a command is required (see --man)")
+        import datetime
+        import sys as _sys
+        year = datetime.date.today().year
+        tty   = _sys.stdout.isatty()
+        cyan  = "\033[36m" if tty else ""
+        dim   = "\033[2m"  if tty else ""
+        reset = "\033[0m"  if tty else ""
+
+        cmds = [
+            ("scan",           "Collect AWS evidence"),
+            ("inventory [ID]", "List or inspect resources"),
+            ("findings [ID]",  "List or inspect findings"),
+            ("investigate",    "Start an investigation review"),
+            ("iam",            "Analyse IAM access paths"),
+            ("exposure",       "Public/cross-account exposure"),
+            ("logs",           "CloudTrail and log findings"),
+            ("ask QUESTION",   "Query stored evidence"),
+            ("classify TEXT",  "Detect PHI/PII patterns in text"),
+            ("report",         "Export findings to JSON/HTML"),
+            ("health",         "Database and last-scan status"),
+            ("agent",          "Continuous background scanning"),
+        ]
+        w1 = max(len(c) for c, _ in cmds) + 2   # command column width
+        w2 = max(len(d) for _, d in cmds) + 2   # description column width
+        inner = w1 + w2 + 5                      # inner width shared by header and table
+
+        def _hrow(text):
+            return "║  " + text.ljust(inner - 2) + "║"
+
+        def _crow(cmd, desc):
+            return "│ " + cyan + cmd + reset + " " * (w1 - len(cmd)) + " │ " + desc.ljust(w2) + " │"
+
+        qs = [
+            ("phid scan --regions us-east-1", "scan an AWS account"),
+            ("phid findings",                  "list findings"),
+            ("phid inventory",                 "list resources"),
+            ("phid report --html out.html",    "export HTML dashboard"),
+        ]
+        qw = max(len(c) for c, _ in qs)
+
+        lines = [
+            "",
+            "  ╔" + "═" * inner + "╗",
+            "  " + _hrow("phid 2.0.0  \u2500  AWS PHI / PII Investigator"),
+            "  " + _hrow(f"Copyright \u00a9 2025-{year} Amirkhanov Oleksandr"),
+            "  " + _hrow("https://phid.amirkhanov.org"),
+            "  ╚" + "═" * inner + "╝",
+            "",
+            "  Quick start",
+            "  " + "\u2500" * inner,
+        ]
+        for cmd, desc in qs:
+            lines.append("  " + cyan + cmd + reset + " " * (qw - len(cmd) + 2) + dim + desc + reset)
+        lines += [
+            "",
+            "  Commands",
+            "  \u250c" + "\u2500" * (w1 + 2) + "\u252c" + "\u2500" * (w2 + 2) + "\u2510",
+        ]
+        for cmd, desc in cmds:
+            lines.append("  " + _crow(cmd, desc))
+        lines += [
+            "  \u2514" + "\u2500" * (w1 + 2) + "\u2534" + "\u2500" * (w2 + 2) + "\u2518",
+            "",
+            "  " + dim + "phid --man  full manual   \u00b7   phid --help  argument reference" + reset,
+            "",
+        ]
+        print("\n".join(lines))
+        return 0
     if args.command == "classify" and bool(args.value) == bool(args.input):
         parser.error("classify requires either quoted text or --input FILE")
     if args.input and args.command != "classify":
