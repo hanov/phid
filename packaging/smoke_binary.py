@@ -15,7 +15,7 @@ with tempfile.TemporaryDirectory(prefix='phid-smoke-') as directory:
             raise AssertionError(f'{args}: {result.returncode}: {result.stderr}')
         print('PASS:', args[0], flush=True)
         return result.stdout
-    assert run('--version').strip() == 'phid 2.0.0'
+    assert run('--version').strip() == 'phid 2.0.1'
     assert 'usage: phid' in run('--help')
     assert 'PHID(1)' in run('--man')
     notices = run('--license')
