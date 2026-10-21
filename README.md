@@ -41,6 +41,8 @@ curl -fsSL https://phid.amirkhanov.org/install.sh | bash -s -- --base-url https:
 phid --version
 ```
 
+![phid scan target selector](website/screenshot-scan-targets.png)
+
 ---
 
 ## What it does
