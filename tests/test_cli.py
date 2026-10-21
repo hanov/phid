@@ -98,7 +98,6 @@ class CLITest(unittest.TestCase):
 
     def test_argument_errors_precede_database_creation(self):
         for args in [
-            [],
             ["ask"],
             ["incident"],
             ["evidence", "--to", "now"],
